@@ -42,8 +42,8 @@
           </UFormField>
         </div>
 
-        <UModal class="mt-4" title="Adicionar tag" :ui="{ footer: 'justify-end' }" :close="{ color: 'primary', variant: 'subtle', class: 'rounded-full'}">
-          <UButton icon="i-mdi-add" label="Adicionar tags" size='md' class='rounded-full border-2 border-dashed cursor-pointer' variant="ghost"/>
+        <UModal v-model:open="open" class="mt-4" title="Adicionar tag" :ui="{ footer: 'justify-end' }" :close="{ color: 'primary', variant: 'subtle', class: 'rounded-full'}">
+          <UButton icon="i-mdi-add" label="Adicionar tags" size='md' class='rounded-full border-2 border-dashed cursor-pointer' @click="open = true" variant="ghost"/>
           <template #body>
             <UInput placeholder="Digite uma tag" class="w-full" size="xl" v-model="modalTag" />
           </template>
@@ -68,22 +68,28 @@ import { reactive, shallowRef, ref, watch, onMounted } from 'vue'
 import * as z from 'zod'
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import type { FormError, FormErrorEvent, FormSubmitEvent, SelectItem } from '@nuxt/ui'
+import { useRouter } from 'vue-router'
 
 import useUsers from '@/composables/useUsers.ts'
 import useTags from '@/composables/useTags.ts'
 import useTickets from '@/composables/useTickets.ts'
 import useTeams from '@/composables/useTeams.ts'
 import useClientes from '@/composables/useClientes.ts'
+import { useAuthStore } from '@/stores/useAuth.ts'
 
 const { getTeams } = useTeams() 
 const { getAllUsers } = useUsers()
 const { save } = useTickets()
 const { getClientes } = useClientes()
+const { insertTags } = useTags()
+const useAuth = useAuthStore()
+const router = useRouter()
 
 const userItems = ref<SelectItem[] | null>(null)
 const clientItems = ref<SelectItem[] | null>(null)
 const teamItems = ref<SelectItem[] | null>(null)
 
+const open = ref<boolean>(false)
 const allUsers = ref<any[]>([]) 
 const filteredUserItems = ref<any[]>([])
 const modalTag = ref('')
@@ -142,8 +148,10 @@ onMounted(async () => {
 })
 
 const toggleTag = (tagValue: string) => {
-  if (!tagValue || tagValue.trim() === '') return
-
+  if (!tagValue || tagValue.trim() === '') { 
+    open.value = false
+    return
+  }
   const index = state.tags.indexOf(tagValue)
 
   if (index !== -1) {
@@ -151,13 +159,22 @@ const toggleTag = (tagValue: string) => {
   } else {
     state.tags.push(tagValue)
   }
+
+  modalTag.value = ''
+  open.value = false
 }
 
-
+  
 const onSubmit = async (event: FormSubmitEvent<Schema>) => {
-  const formData = {...event.data}
+  const {tags, ...rest} = event.data
 
-  await save(formData)
+  const saved = await save({...rest, owner_id: useAuth.user.id})
+
+  if (tags.length > 0) {
+    await insertTags(tags, saved)
+  }
+
+  router.replace('/')
 }
 
 const df = new DateFormatter('pt-BR', {

@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS tickets (
   user_id INT NOT NULL,
   title VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
-  created_date DATE NOT NULL,
   due_date DATE,
   priority ENUM('ALTA', 'MEDIA', 'BAIXA') NOT NULL,
   client_id INT NOT NULL,
