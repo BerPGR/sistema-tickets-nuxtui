@@ -7,6 +7,26 @@ use PDO;
 class TicketController {
   public function __construct(private PDO $pdo) {}
 
+    public function show($userId) {
+      try {
+        $sql = "SELECT t.id as id, title, te.name as team, c.name as client, priority, due_date, t.created_at as created_at, u_owner.name as owner, u_user.name as responsable FROM tickets t
+          INNER JOIN clients c ON c.id = t.client_id
+          INNER JOIN teams te ON te.id = t.team_id
+          INNER JOIN users u_owner ON t.owner_id = u_owner.id
+          INNER JOIN users u_user ON  t.user_id = u_user.id
+          WHERE t.owner_id = $userId";
+
+        $stmt = $this->pdo->query($sql);
+        $tickets = $stmt->fetchAll();
+
+        Flight::json($tickets, 200);
+      } catch (PDOException $e) {
+        Flight::json('Erro ao consultar banco de dados: '. $e->getMessage(), 500);
+      } catch (\Throwable $e) {
+        Flight::json('Erro na função: ' . $e->getMessage(), 500);
+      }
+    }
+
     public function save() {
       try {
         $this->pdo->beginTransaction();

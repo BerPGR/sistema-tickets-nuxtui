@@ -38,7 +38,7 @@ const router = useRouter()
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
-    label: 'Home',
+    label: 'Meus Tickets',
     to: '/',
     icon: 'i-mdi-home',
     active: route.path == "/"
