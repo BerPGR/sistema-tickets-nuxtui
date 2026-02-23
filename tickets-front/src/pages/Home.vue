@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="min-h-screen w-full py-10">
+  <div class="min-h-screen w-full container mx-auto py-10">
     <span>Bem vindo, <b>{{ store.user.name }}</b></span>
     <UCard class="mt-10">
       <template #header>
@@ -7,7 +7,7 @@
       </template>
       <UTable :data="ticketsData" :columns="columns"/>
     </UCard>
-  </UContainer>
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -18,8 +18,11 @@
   import useTickets from '@/composables/useTickets.ts'
   import type { Tickets } from '@/types/types.ts'
   import type { TableColumn } from '@nuxt/ui'
+  import type { Row } from '@tanstack/vue-table'
 
   const UBadge = resolveComponent('UBadge')
+  const UButton = resolveComponent('UButton')
+  const UDropdownMenu = resolveComponent('UDropdownMenu')
   
   const message = ref<string>('')
   
@@ -94,8 +97,49 @@
 
         return h(UBadge, { class: 'Capitalize', variant: 'subtle', color }, () => row.getValue('priority'))
       }
+    },
+    {
+      id: 'actions',
+      meta: {
+        class: {
+          td: 'text-right'
+        }
+      },
+      cell: ({ row }) => {
+        return h(
+          UDropdownMenu,
+          {
+            content: {
+              align: 'end'
+            },
+            items: getRowItems(row)
+          },
+          () => h(UButton, {
+            icon: 'i-lucide-ellipsis-vertical',
+            color: 'neutral',
+            variant: 'ghost',
+            'aria-lable': 'Actions Dropdown'
+          })
+        )
+      }
     }
   ] 
+
+  function getRowItems(row: Row<Tickets>) {
+    return [
+      {
+        type: 'label',
+        label: 'Ações'
+      },
+      {
+        label: 'Acessar ticket',
+        onSelect() {
+         const id = row.original.id
+         router.push(`/ticket/${id}`)
+        }
+      }
+    ]
+  }
 
   onMounted(async () => {
   try {
