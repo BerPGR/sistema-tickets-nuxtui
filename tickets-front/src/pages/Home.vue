@@ -49,6 +49,11 @@
       cell: ({ row }) => row.getValue('title')
     },
     {
+     accessorKey: 'status',
+     header: 'Status',
+     cell: ({ row }) => row.getValue('status')
+    },
+    {
       accessorKey: 'due_date',
       header: 'Deadline',
       cell: ({ row }) => {
@@ -99,6 +104,7 @@
       }
     },
     {
+      header: 'Ações',
       id: 'actions',
       meta: {
         class: {

@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   description TEXT NOT NULL,
   due_date DATE,
   priority ENUM('ALTA', 'MEDIA', 'BAIXA') NOT NULL,
+  status ENUM('Aguardando', 'Em Execução', 'Revisão', 'Finalizado') NOT NULL,
   client_id INT NOT NULL,
   team_id INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

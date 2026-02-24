@@ -15,7 +15,8 @@ Flight::group('/api', function () {
   });
 
   Flight::route('GET /users', [UserController::class, 'getUsers']);
-  Flight::route('GET /users/@userId/tickets', [TicketController::class, 'show']);
+  Flight::route('GET /users/@userId/tickets', [TicketController::class, 'index']);
+  Flight::route('GET /tickets/@ticketId', [TicketController::class, 'show']);
 
   Flight::route('POST /tickets', [TicketController::class, 'save']);
   Flight::route('POST /tickets/@id/tags', [TicketController::class, 'saveTags']);
