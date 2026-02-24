@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   owner_id INT NOT NULL,
   user_id INT NOT NULL,
   title VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
+  description BLOB NOT NULL,
   due_date DATE,
   priority ENUM('ALTA', 'MEDIA', 'BAIXA') NOT NULL,
   status ENUM('Aguardando', 'Em Execução', 'Revisão', 'Finalizado') NOT NULL,
@@ -56,6 +56,15 @@ CREATE TABLE IF NOT EXISTS ticket_tags (
   PRIMARY KEY (ticket_id, tag_id),
   FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
   FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ticket_updates (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  ticket_id INT NOT NULL,
+  user_id INT NOT NULL,
+  modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  type ENUM('comment', 'update', 'assignment'),
+  comment BLOB
 );
 ";
 

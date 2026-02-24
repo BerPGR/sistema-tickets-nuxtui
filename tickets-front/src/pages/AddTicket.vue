@@ -8,14 +8,6 @@
       </template>
 
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-        <UFormField label="Titulo">
-          <UInput size="xl" class="w-full" placeholder="Titulo do ticket" v-model="state.title"/>
-        </UFormField>
-        <UFormField label="Descrição">
-          <UTextarea size="xl" class="w-full" :rows="6" :autoresize="true" v-model="state.description"/>
-        </UFormField>
-        
-        <USeparator/>
 
         <div class="grid md:grid-cols-3 gap-10">
           <UFormField class="w-full" label="Cliente">
@@ -54,6 +46,18 @@
         <div class="flex items-center wrap gap-4">
           <UBadge class="cursor-pointer" variant="subtle" v-for="(tag, i) in state.tags" :key="i" :label="tag" @click="toggleTag(tag)" />
         </div>
+        
+        <USeparator/>
+
+        <UFormField label="Titulo">
+          <UInput size="xl" class="w-full" placeholder="Titulo do ticket" v-model="state.title"/>
+        </UFormField>
+        <UFormField label="Descrição">
+          <UEditor v-slot="{ editor }" content-type="html" placeholder="Descrição do ticket..." v-model='state.description' class='min-h-50 border border-gray-300 rounded-md'>
+            <UEditorToolbar :editor="editor" :items='items' />
+            <UEditorDragHandle :editor="editor" icon="i-lucide-move"/>
+          </UEditor>
+        </UFormField>
 
         <USeparator class="my-4" />
 
@@ -64,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EditorToolbarItem } from '@nuxt/ui'
 import { reactive, shallowRef, ref, watch, onMounted } from 'vue'
 import * as z from 'zod'
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
@@ -200,4 +205,17 @@ watch(() => state.team_id, (newTeamId) => {
 
   filteredUserItems.value = allUsers.value.filter(user => user.team_id === newTeamId)
 })
+
+const items: EditorToolbarItem[] = [
+  { kind: 'mark', mark: 'bold', icon: 'i-lucide-bold' },
+  { kind: 'mark', mark: 'italic', icon: 'i-lucide-italic' },
+  { kind: 'heading', level: 1, icon: 'i-lucide-heading-1' },
+  { kind: 'heading', level: 2, icon: 'i-lucide-heading-2' },
+  { kind: 'textAlign', align: 'left', icon: 'i-lucide-align-left' },
+  { kind: 'textAlign', align: 'center', icon: 'i-lucide-align-center' },
+  { kind: 'bulletList', icon: 'i-lucide-list' },
+  { kind: 'orderedList', icon: 'i-lucide-list-ordered' },
+  { kind: 'blockquote', icon: 'i-lucide-quote' },
+  { kind: 'link', icon: 'i-lucide-link' }
+]
 </script>

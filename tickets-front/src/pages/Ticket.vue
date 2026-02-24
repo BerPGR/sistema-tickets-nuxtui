@@ -39,7 +39,7 @@
         </div>
       </template>
       <span class="text-secondary font-semibold text-sm">Descrição</span>
-      <p>{{ticket.description}}</p>
+      <div v-html="ticket.description" class="conteudo-editor"></div>
     </UCard>
     
     <UCard class="w-1/3 shadow-xl">
@@ -85,3 +85,44 @@
     });
   }
 </script>
+
+<style scoped>
+@reference "../style.css";
+.conteudo-editor :deep(h1) {
+  @apply text-3xl font-bold mb-6 mt-8 text-gray-900 dark:text-white border-b pb-2;
+}
+
+.conteudo-editor :deep(h2) {
+  @apply text-2xl font-semibold mb-4 mt-6 text-gray-800 dark:text-gray-100;
+}
+
+.conteudo-editor :deep(strong), 
+.conteudo-editor :deep(b) {
+  @apply font-bold text-primary-500; 
+}
+
+.conteudo-editor :deep(em), 
+.conteudo-editor :deep(i) {
+  @apply italic text-gray-700 dark:text-gray-300;
+}
+
+.conteudo-editor :deep(ul) {
+  @apply list-disc ml-6 mb-4 space-y-2;
+}
+
+.conteudo-editor :deep(ol) {
+  @apply list-decimal ml-6 mb-4 space-y-2;
+}
+
+.conteudo-editor :deep(li) {
+  @apply pl-1;
+}
+
+.conteudo-editor :deep(blockquote) {
+  @apply border-l-4 border-primary-500 pl-4 py-2 my-4 italic bg-gray-50 dark:bg-gray-800 rounded-r;
+}
+
+.conteudo-editor :deep(p) {
+  @apply mb-4 leading-relaxed;
+}
+</style>

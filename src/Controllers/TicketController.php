@@ -44,6 +44,7 @@ class TicketController {
 
         $stmt = $this->pdo->query($sql);
         $ticket = $stmt->fetch();
+        $ticket['description'] = unserialize(gzuncompress($ticket['description']));
 
         Flight::json($ticket, 200);
 
@@ -59,6 +60,7 @@ class TicketController {
         $this->pdo->beginTransaction();
 
         $data = Flight::request()->data;
+        $data['description'] = gzcompress(serialize($data['description']));
         $sql = "INSERT INTO tickets (owner_id, user_id, title, description, due_date, priority, client_id, team_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
