@@ -29,7 +29,7 @@ class TicketController {
 
     public function show(int $ticketId) {
       try {
-        $sql = "SELECT t.id as id, title, te.name as team, status, c.name as client, priority, due_date, t.created_at as created_at, u_owner.name as owner, u_user.name as responsable,
+        $sql = "SELECT t.id as id, title, description, te.name as team, status, c.name as client, priority, due_date, t.created_at as created_at, u_owner.name as owner, u_user.name as responsable,
           GROUP_CONCAT(tags.name SEPARATOR ', ') as tags
           FROM tickets t
           INNER JOIN clients c ON c.id = t.client_id

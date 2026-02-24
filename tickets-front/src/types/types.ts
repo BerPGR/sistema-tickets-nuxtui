@@ -9,5 +9,6 @@ export type Tickets = {
   client: string,
   team: string,
   title: string,
-  tags: string | null
+  tags: string | null,
+  description: string | null
 } 

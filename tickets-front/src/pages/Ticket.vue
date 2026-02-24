@@ -9,45 +9,46 @@
         </div>
         <div class="grid grid-cols-4 gap-5 mt-10">
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Prioridade</span>
+            <span class="font-semibold text-secondary text-sm">Prioridade</span>
             <label>{{ticket.priority}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Aberto em</span>
+            <span class="font-semibold text-secondary text-sm">Aberto em</span>
             <label>{{formattedDate(ticket.created_at)}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Deadline</span>
+            <span class="font-semibold text-secondary text-sm">Deadline</span>
             <label>{{formattedDate(ticket.due_date)}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Status</span>
+            <span class="font-semibold text-secondary text-sm">Status</span>
             <label>{{ticket.status}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Aberto por</span>
+            <span class="font-semibold text-secondary text-sm">Aberto por</span>
             <label>{{ticket.owner}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Grupo responsável</span>
+            <span class="font-semibold text-secondary text-sm">Grupo responsável</span>
             <label>{{ticket.team}}</label>
           </div>
           <div class="flex flex-col">
-            <span class="font-semibold text-secondary">Usuário responsável</span>
+            <span class="font-semibold text-secondary text-sm">Usuário responsável</span>
             <label>{{ticket.responsable}}</label>
           </div>
-
         </div>
       </template>
+      <span class="text-secondary font-semibold text-sm">Descrição</span>
+      <p>{{ticket.description}}</p>
     </UCard>
     
     <UCard class="w-1/3 shadow-xl">
       <div class="flex flex-col gap-4">
-        <UButton size="xl" label="Comentar" color="primary"/> 
-        <UButton size="xl" label="Devolver" color="secondary"/> 
-        <UButton size="xl" label="Atualizar" color="warning"/> 
-        <UButton size="xl" label="Finalizar" color="error"/> 
-        <UButton size="xl" label="Lista" color="info"/> 
+        <UButton size="xl" class="flex items-center justify-center cursor-pointer" color="primary"><UIcon name="i-mdi-send" class="size-6"/>Comentar</UButton>
+        <UButton size="xl" class="flex items-center justify-center cursor-pointer" color="secondary"><UIcon name="i-mdi-undo" class="size-6"/>Devolver</UButton>
+        <UButton size="xl" class="flex items-center justify-center cursor-pointer" color="warning"><UIcon name="i-mdi-sync" class="size-6"/>Atualizar</UButton>
+        <UButton size="xl" class="flex items-center justify-center cursor-pointer" color="error"><UIcon name="i-mdi-check" class="size-6"/>Finalizar</UButton>
+        <UButton size="xl" class="flex items-center justify-center cursor-pointer" color="info"><UIcon name="i-mdi-format-list-bulleted" class="size-6"/>Lista</UButton>
       </div>
     </UCard>
   </UContainer>
