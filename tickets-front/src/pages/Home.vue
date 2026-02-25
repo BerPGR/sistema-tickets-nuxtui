@@ -46,7 +46,7 @@
     {
       accessorKey: 'client',
       header: 'Cliente',
-      cell: ({ row }) => row.getValue('title')
+      cell: ({ row }) => row.getValue('client')
     },
     {
      accessorKey: 'status',
