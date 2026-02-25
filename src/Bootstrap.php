@@ -13,13 +13,8 @@ Flight::before('start', [$cors, 'handleCors']);
 Flight::set('config', [
   'front_origin' => 'http://localhost:5173',
   'db' => [
-    'driver' => 'mysql',
-    'host' => '127.0.0.1',
-    'port' => 3306,
-    'database' => 'tickets',
-    'username' => 'root',
-    'password' => 'MySqlUser270113!',
-    'chartset' => 'utf8mb4'
+    'driver' => 'sqlite',
+    'database' => __DIR__ . '/database.sqlite'
   ]
 ]);
 

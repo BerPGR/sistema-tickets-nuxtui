@@ -20,7 +20,7 @@ class TicketController {
         $tickets = $stmt->fetchAll();
 
         Flight::json($tickets, 200);
-      } catch (PDOException $e) {
+      } catch (\PDOException $e) {
         Flight::json('Erro ao consultar banco de dados: '. $e->getMessage(), 500);
       } catch (\Throwable $e) {
         Flight::json('Erro na função: ' . $e->getMessage(), 500);
@@ -30,7 +30,7 @@ class TicketController {
     public function show(int $ticketId) {
       try {
         $sql = "SELECT t.id as id, title, description, te.name as team, status, c.name as client, priority, due_date, t.created_at as created_at, u_owner.name as owner, u_user.name as responsable,
-          GROUP_CONCAT(tags.name SEPARATOR ', ') as tags
+          GROUP_CONCAT(tags.name, ', ') as tags
           FROM tickets t
           INNER JOIN clients c ON c.id = t.client_id
           INNER JOIN teams te ON te.id = t.team_id
@@ -48,7 +48,7 @@ class TicketController {
 
         Flight::json($ticket, 200);
 
-      } catch (PDOException $e) {
+      } catch (\PDOException $e) {
         Flight::json('Erro ao acessar banco: ' . $e->getMessage(), 500);
       } catch (\Throwable $e) {
         Flight::json("Erro ao mostrar ticket: " . $e->getMessage(), 500);
@@ -82,7 +82,7 @@ class TicketController {
       } catch (\Throwable $e) {
         $this->pdo->rollBack();
         Flight::json('Erro ao criar ticket: ' . $e->getMessage(), 500);
-      } catch (PDOException $e) {
+      } catch (\PDOException $e) {
         $this->pdo->rollBack();
         Flight::json('Erro PDO: ' . $e->getMessage(), 400);
       }
@@ -117,7 +117,7 @@ class TicketController {
       $this->pdo->commit();
 
       Flight::json("Tags criadas com sucesso", 200);
-    } catch (PDOException $e) {
+    } catch (\PDOException $e) {
       $this->pdo->rollBack();
       Flight::json('Erro ao criar tag: ' . $e->getMessage(), 400);
     } catch (\Throwable $e) {

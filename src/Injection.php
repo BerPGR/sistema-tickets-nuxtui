@@ -20,9 +20,7 @@ class Injection {
     $container = new Container();
 
     $container->set(PDO::class, fn(): PDO => new PDO(
-      "{$config['db']['driver']}:host={$config['db']['host']};port={$config['db']['port']};dbname={$config['db']['database']}",
-      $config['db']['username'],
-      $config['db']['password'],
+      "{$config['db']['driver']}:{$config['db']['database']}", options:
       [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

@@ -3,7 +3,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $faker = Faker\Factory::create('pt-BR');
-$pdo = new PDO("mysql:host=127.0.0.1;port=3306;dbname=tickets", "root", "MySqlUser270113!");
+$database = __DIR__ . '/../src/database.sqlite';
+$pdo = new PDO("sqlite:{$database}");
 
 $password = 'secret123';
 $hash = password_hash($password, PASSWORD_BCRYPT);
